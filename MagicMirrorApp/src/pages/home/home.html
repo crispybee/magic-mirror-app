@@ -14,4 +14,9 @@
     Take a look at the <code>src/pages/</code> directory to add or change tabs,
     update any existing page or create new pages.
   </p>
+      <button ion-button (click)="openModal()">
+        <!--<span ion-text color="primary" showWhen="ios"> Search Bluetooth devices</span>-->
+        <ion-icon name="ios-bluetooth" showWhen="ios"> Search Bluetooth devices</ion-icon>
+        <ion-icon name="md-bluetooth" showWhen="android, windows"> Search Bluetooth devices</ion-icon>
+      </button>
 </ion-content>

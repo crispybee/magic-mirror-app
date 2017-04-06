@@ -1,22 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Platform, NavParams, ViewController } from 'ionic-angular';
 
-/*
-  Generated class for the Bluetooth page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-bluetooth',
   templateUrl: 'bluetooth.html'
 })
 export class BluetoothPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public platform: Platform, public params: NavParams, public viewController: ViewController) { }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad BluetoothPage');
+  dismiss() {
+    this.viewController.dismiss();
   }
-
 }

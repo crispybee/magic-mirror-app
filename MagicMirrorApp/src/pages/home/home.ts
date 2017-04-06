@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { BluetoothPage } from '../bluetooth/bluetooth';
 
-import { NavController } from 'ionic-angular';
+import { ModalController, NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -8,8 +9,10 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public modalCtrl: ModalController, public navCtrl: NavController) {  }
 
+  openModal() {
+      let modal = this.modalCtrl.create(BluetoothPage);
+      modal.present();
   }
-
 }
