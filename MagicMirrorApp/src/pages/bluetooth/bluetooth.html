@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Bluetooth</ion-title>
-    <ion-buttons start>      
+    <ion-buttons start>
       <button ion-button icon-only (click)="dismiss()">
         <ion-icon name="ios-arrow-back" showWhen="ios"></ion-icon>
         <ion-icon name="md-arrow-back" showWhen="android, windows"></ion-icon>
@@ -15,17 +15,18 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-list>
-        <ion-item *ngFor="let item of scannedBluetoothDevices">
+        <ion-item *ngFor="let item of scannedBluetoothDevices" (click)="connectToDevice(item.macAddress)">
           {{item.deviceName}}
           <ion-note item-right>
             {{item.macAddress}}
           </ion-note>
         </ion-item>
         <ion-item>
-          <ion-spinner icon="ripple" class="spinner-assertive"> Searching...</ion-spinner>          
+          <ion-spinner icon="ripple" class="spinner-assertive"> Searching...</ion-spinner>
         </ion-item>
     </ion-list>
 </ion-content>
 
 <ion-footer>
+        <button ion-button (click)="disconnectDevice()">Disconnect</button>
 </ion-footer>

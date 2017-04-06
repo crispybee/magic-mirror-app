@@ -29,7 +29,7 @@ export class BluetoothPage {
           console.log(error);
       });
   }
-    
+
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
 
@@ -39,8 +39,27 @@ export class BluetoothPage {
     setTimeout(() => {
       console.log('Async operation has ended');
       refresher.complete();
-    this.scanBluetoothDevices();      
+    this.scanBluetoothDevices();
     }, 500);
+  }
+
+  connectToDevice(deviceId) {
+    this.ble.connect(deviceId).subscribe(connection => {
+      console.log(connection);
+      this.dismiss();
+    }, error => {
+      console.log("Connection error:", error);
+    });
+
+    console.log(deviceId);
+  }
+
+  disconnectDevice() {
+    this.ble.disconnect("6c:b8:87:ae:ec:c6").then(answer => {
+      console.log(answer);
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   dismiss() {
