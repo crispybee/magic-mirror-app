@@ -35,12 +35,12 @@ export class BluetoothPage {
 
     this.ble.stopScan();
     this.scannedBluetoothDevices = [];
-    this.scanBluetoothDevices();
 
     setTimeout(() => {
       console.log('Async operation has ended');
       refresher.complete();
-    }, 100);
+    this.scanBluetoothDevices();      
+    }, 500);
   }
 
   dismiss() {
