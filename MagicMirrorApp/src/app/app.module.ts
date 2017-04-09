@@ -11,6 +11,7 @@ import {MapPage} from '../pages/maps/maps';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Geolocation} from '@ionic-native/geolocation';
+import {GridsterModule} from 'angular2gridster';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {Geolocation} from '@ionic-native/geolocation';
     MapPage
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    GridsterModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

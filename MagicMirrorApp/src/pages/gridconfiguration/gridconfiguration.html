@@ -5,8 +5,38 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Configure</h2>
+  <!--<h2>Configure</h2>
   <p>
     Here you can configure your grid of your magic mirror.
-  </p>
+  </p>-->
+    <gridster [options]="gridsterOptions" [draggableOptions]="gridsterDraggableOptions"
+              (gridsterPositionChange)="logChanges($event)" #gridster>
+
+        <gridster-item  style="background-color: chocolate; border-style: solid" *ngFor="let widget of widgets; let indx = index" [(x)]="widget.x" [(y)]="widget.y" [w]="widget.w"
+                       [h]="widget.h">
+
+            <div class="panel-heading">
+                <h5 class="panel-title">{{ widget.title }}</h5>
+            </div>
+                <p>{{ widget.content }}</p>
+                <!--
+
+            <div class="panel-body">
+                <p>
+                    <button (click)="setWidth(widget, widget.w+1, $event)">width +</button>
+                    <button (click)="setWidth(widget, widget.w-1, $event)">width -</button>
+                    <button (click)="setHeight(widget, widget.h+1, $event)">height +</button>
+                    <button (click)="setHeight(widget, widget.h-1, $event)">height -</button>
+                </p>
+                <p>
+                    <button (click)="remove($event, indx,gridster)">remove</button>
+                </p>
+                <p>
+                    Position (x,y): ({{widget.x}},{{widget.y}})
+                </p>
+            </div>
+                -->
+        </gridster-item>
+
+    </gridster>
 </ion-content>
