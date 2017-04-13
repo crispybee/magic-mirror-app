@@ -13,8 +13,8 @@ export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
   tab1Root: any = HomePage;
-  tab2Root: any = GridConfigurationPage;
-  tab3Root: any = SettingsPage;
+  tab2Root: any = SettingsPage;
+  tab3Root: any = GridConfigurationPage;
   tab4Root: any = ContactPage;
   tab5Root: any = AboutPage;
   tab6Root: any = MapPage;
