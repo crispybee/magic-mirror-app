@@ -11,6 +11,7 @@ import {MapPage} from '../pages/maps/maps';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Geolocation} from '@ionic-native/geolocation';
+import {MirrorGridComponent} from "../components/mirror-grid/mirror-grid";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {Geolocation} from '@ionic-native/geolocation';
     TabsPage,
     GridConfigurationPage,
     SettingsPage,
-    MapPage
+    MapPage,
+    MirrorGridComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
