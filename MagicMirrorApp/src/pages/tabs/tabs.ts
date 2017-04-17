@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
-import { HomePage } from '../home/home';
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
-import { GridConfigurationPage } from '../gridconfiguration/gridconfiguration';
+import {HomePage} from '../home/home';
+import {AboutPage} from '../about/about';
+import {ContactPage} from '../contact/contact';
 import {SettingsPage} from '../settings/settings';
 import {MapPage} from '../maps/maps';
 @Component({
@@ -14,10 +13,10 @@ export class TabsPage {
   // should be each tab's root Page
   tab1Root: any = HomePage;
   tab2Root: any = SettingsPage;
-  tab3Root: any = GridConfigurationPage;
-  tab4Root: any = ContactPage;
-  tab5Root: any = AboutPage;
-  tab6Root: any = MapPage;
+  tab3Root: any = ContactPage;
+  tab4Root: any = AboutPage;
+  tab5Root: any = MapPage;
+
   constructor() {
 
   }

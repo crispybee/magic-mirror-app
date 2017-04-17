@@ -5,13 +5,20 @@ import {AboutPage} from '../pages/about/about';
 import {ContactPage} from '../pages/contact/contact';
 import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
-import {GridConfigurationPage} from '../pages/gridconfiguration/gridconfiguration';
 import {SettingsPage} from '../pages/settings/settings';
 import {MapPage} from '../pages/maps/maps';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Geolocation} from '@ionic-native/geolocation';
-
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  CameraPosition,
+  MarkerOptions,
+  Marker
+} from '@ionic-native/google-maps';
 
 @NgModule({
   declarations: [
@@ -20,7 +27,6 @@ import {Geolocation} from '@ionic-native/geolocation';
     ContactPage,
     HomePage,
     TabsPage,
-    GridConfigurationPage,
     SettingsPage,
     MapPage
   ],
@@ -34,7 +40,6 @@ import {Geolocation} from '@ionic-native/geolocation';
     ContactPage,
     HomePage,
     TabsPage,
-    GridConfigurationPage,
     SettingsPage,
     MapPage
   ],
@@ -42,6 +47,7 @@ import {Geolocation} from '@ionic-native/geolocation';
     StatusBar,
     SplashScreen,
     Geolocation,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
