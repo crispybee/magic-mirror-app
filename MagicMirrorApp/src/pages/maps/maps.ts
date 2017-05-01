@@ -1,15 +1,6 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, Platform} from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
-// import {
-//   GoogleMaps,
-//   GoogleMap,
-//   GoogleMapsEvent,
-//   LatLng,
-//   CameraPosition,
-//   MarkerOptions,
-//   Marker
-// } from '@ionic-native/google-maps';
 import { GoogleMap, GoogleMapsEvent, LatLng } from '@ionic-native/google-maps';
 
 @Component({
