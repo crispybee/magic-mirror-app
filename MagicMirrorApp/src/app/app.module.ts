@@ -19,6 +19,7 @@ import {
   MarkerOptions,
   Marker
 } from '@ionic-native/google-maps';
+import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {
     HomePage,
     TabsPage,
     SettingsPage,
-    MapPage
+    MapPage,
+    MirrorSurfacePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -41,7 +43,8 @@ import {
     HomePage,
     TabsPage,
     SettingsPage,
-    MapPage
+    MapPage,
+    MirrorSurfacePage
   ],
   providers: [
     StatusBar,
