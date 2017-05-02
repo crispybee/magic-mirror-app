@@ -22,6 +22,7 @@ import {
   Marker
 } from '@ionic-native/google-maps';
 import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
+import { PackeryGridComponent } from "../components/packery-grid/packery-grid";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
     BluetoothPage,
     SettingsPage,
     MapPage,
-    MirrorSurfacePage
+    MirrorSurfacePage,
+    PackeryGridComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
