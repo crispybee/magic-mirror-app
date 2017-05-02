@@ -39,9 +39,20 @@ export class PackeryGridComponent implements AfterViewInit {
         packery.bindDraggabillyEvents(draggedElement);
       });
 
+      // show item order after layout
+      function orderItems() {
+        packery.getItemElements().forEach(function(itemElem, position) {
+          itemElem.textContent = position + 1;
+        });
+      }
+
       packery.on('dragItemPositioned', function(draggedItem) {
         packery.layout();
       });
+
+      packery.on('layoutComplete', orderItems);
+
+      orderItems();
     }
 
   constructor() {
