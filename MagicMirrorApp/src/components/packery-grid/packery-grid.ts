@@ -42,7 +42,7 @@ export class PackeryGridComponent implements AfterViewInit {
       // show item order after layout
       function orderItems() {
         packery.getItemElements().forEach(function(itemElem, position) {
-          itemElem.textContent = position + 1;
+          // itemElem.textContent = position + 1;
         });
       }
 
