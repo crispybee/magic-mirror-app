@@ -6,10 +6,22 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { BluetoothPage } from '../pages/bluetooth/bluetooth';
-
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {SettingsPage} from '../pages/settings/settings';
+import {MapPage} from '../pages/maps/maps';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {Geolocation} from '@ionic-native/geolocation';
 import { BLE } from '@ionic-native/ble'
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  CameraPosition,
+  MarkerOptions,
+  Marker
+} from '@ionic-native/google-maps';
+import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
 
 @NgModule({
   declarations: [
@@ -19,6 +31,9 @@ import { BLE } from '@ionic-native/ble'
     HomePage,
     TabsPage,
     BluetoothPage
+    SettingsPage,
+    MapPage,
+    MirrorSurfacePage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -31,11 +46,16 @@ import { BLE } from '@ionic-native/ble'
     HomePage,
     TabsPage,
     BluetoothPage
+    SettingsPage,
+    MapPage,
+    MirrorSurfacePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     BLE,
+    Geolocation,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

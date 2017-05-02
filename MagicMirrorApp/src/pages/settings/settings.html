@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div padding>
+    <ion-segment [(ngModel)]="settings">
+      <ion-segment-button value="Dash Buttons">
+        Dash Buttons
+      </ion-segment-button>
+      <ion-segment-button value="WiFi">
+        WiFi
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="settings">
+    <ion-list *ngSwitchCase="'Dash Buttons'">
+      <ion-item>
+        <ion-label stacked>MAC Adress 1</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Message 1</ion-label>
+        <ion-input type="text"></ion-input>
+        <button ion-button item-right>Save</button>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>MAC Adress 2</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Message 2</ion-label>
+        <ion-input type="text"></ion-input>
+        <button ion-button item-right (click)="save()">Save</button>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>MAC Adress 3</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Message 3</ion-label>
+        <ion-input type="text"></ion-input>
+        <button ion-button item-right (click)="save()">Save</button>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'WiFi'">
+      <ion-item>
+        <ion-label stacked>Network Name</ion-label>
+        <ion-input type="text"></ion-input>
+        <button ion-button item-right (click)="save()">Save</button>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
