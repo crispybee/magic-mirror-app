@@ -30,7 +30,7 @@ import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
     ContactPage,
     HomePage,
     TabsPage,
-    BluetoothPage
+    BluetoothPage,
     SettingsPage,
     MapPage,
     MirrorSurfacePage
@@ -45,7 +45,7 @@ import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
     ContactPage,
     HomePage,
     TabsPage,
-    BluetoothPage
+    BluetoothPage,
     SettingsPage,
     MapPage,
     MirrorSurfacePage
