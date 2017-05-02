@@ -44,4 +44,5 @@ If there are problems setting up, install the native plugins manually:
 $ ionic plugin add --save cordova-plugin-geolocation
 $ ionic plugin add --save cordova-plugin-ble-central
 $ ionic plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ANDROID="ANDROID_KEY" --variable API_KEY_FOR_IOS="IOS_KEY"
+$ npm install --save @ionic-native/google-maps
 ```
