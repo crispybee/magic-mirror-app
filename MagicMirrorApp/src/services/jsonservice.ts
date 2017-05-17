@@ -26,7 +26,7 @@ static instance:JsonService;
    
     constructor() {
         if (!JsonService.isCreating) {
-            throw new Error("You can't call new in Singleton instances! Call SingletonService.getInstance() instead.");
+            throw new Error("You can't call new in Singleton instances! Call JsonService.getInstance() instead.");
         }
     }
 

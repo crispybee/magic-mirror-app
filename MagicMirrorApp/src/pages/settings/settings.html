@@ -18,26 +18,54 @@
 
   <div [ngSwitch]="settings">
     <ion-list *ngSwitchCase="'Dash Buttons'">
-        <ion-label stacked color="primary" item-left>MAC</ion-label>
-        <ion-input placeholder="Enter MAC here" ></ion-input>
-        <ion-label stacked color="primary"item-left>Message</ion-label>
-        <ion-input placeholder="Enter message here"></ion-input>
-      <ion-item *ngFor="let item of items" let index=index>
+      <form>
+        <ion-item>
+          <ion-label>MAC 1</ion-label>
+          <ion-input type="text" [(ngModel)]="mac1.mac" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Message 1</ion-label>
+          <ion-textarea [(ngModel)]="message1.message" [ngModelOptions]="{standalone: true}"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>MAC 2</ion-label>
+          <ion-input type="text" [(ngModel)]="mac2.mac" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Message 2</ion-label>
+          <ion-textarea [(ngModel)]="message2.message" [ngModelOptions]="{standalone: true}"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>MAC 3</ion-label>
+          <ion-input type="text" [(ngModel)]="mac3.mac" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Message 3</ion-label>
+          <ion-textarea [(ngModel)]="message3.message" [ngModelOptions]="{standalone: true}"></ion-textarea>
+        </ion-item>
+        <button ion-button (click)="save()" item-left>Save</button>
+      </form>
+      <!--   <ion-item *ngFor="let item of items" let index=index>
         <ion-label stacked color="primary">{{item.adress}}</ion-label>
         <ion-input placeholder="Enter MAC here"></ion-input>
         <ion-label stacked color="primary">{{item.message}}</ion-label>
         <ion-input placeholder="Enter message here"></ion-input>
         <ion-item-divider color="light"></ion-item-divider>
       </ion-item>
-      <button ion-button (click)="add()"> <ion-icon name="add"></ion-icon></button>
-      <button ion-button (click)="save()" item-left>Save</button>
+      <button ion-button (click)="add()"> <ion-icon name="add"></ion-icon></button>-->
     </ion-list>
     <ion-list *ngSwitchCase="'WiFi'">
-      <ion-item>
-        <ion-label stacked>Network Name</ion-label>
-        <ion-input type="text"></ion-input>
-        <button ion-button item-right (click)="save()">Save</button>
-      </ion-item>
+    <form>
+        <ion-item>
+          <ion-label>SSID</ion-label>
+          <ion-textarea  [(ngModel)]="ssid.ssid" [ngModelOptions]="{standalone: true}"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>Password</ion-label>
+          <ion-input type="password" [(ngModel)]="password.password" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <button ion-button (click)="saveWifiSettings()" item-left>Save</button>
+      </form>
     </ion-list>
   </div>
 </ion-content>
