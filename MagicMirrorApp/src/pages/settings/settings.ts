@@ -8,9 +8,8 @@ import { JsonService } from "../../services/jsonservice";
   templateUrl: 'settings.html'
 })
 export class SettingsPage {
-
   items: Array<{ adress: string, message: string }> = [];
-  numberOfDashButtons: number = 0;
+  public numberOfDashButtons: number = 0;
   constructor(public navCtrl: NavController) {
     // testing
     JsonService.getInstance().addRowsForDesktop(1, {
@@ -23,16 +22,15 @@ export class SettingsPage {
   }
 
   save() {
-
   }
 
   add() {
+
     this.numberOfDashButtons++;
     this.items.push({
-      adress: 'MAC Adress' + this.numberOfDashButtons,
+      adress: 'MAC' + this.numberOfDashButtons,
       message: 'Message ' + this.numberOfDashButtons,
     });
-
   }
 
 }
