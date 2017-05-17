@@ -23,6 +23,7 @@ import {
 } from '@ionic-native/google-maps';
 import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
 import { PackeryGridComponent } from "../components/packery-grid/packery-grid";
+import { PackeryGridItemComponent } from "../components/packery-grid-item/packery-grid-item";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PackeryGridComponent } from "../components/packery-grid/packery-grid";
     SettingsPage,
     MapPage,
     MirrorSurfacePage,
-    PackeryGridComponent
+    PackeryGridComponent,
+    PackeryGridItemComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)

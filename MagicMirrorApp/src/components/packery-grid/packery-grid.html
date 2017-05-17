@@ -1,28 +1,39 @@
  <div class="grid" #packeryGrid>
-    <div class="grid-item grid-item--width2">
+    <!--
+    <div class="grid-item">
         <ion-icon name="map" color="white"></ion-icon>
     </div>
     <div class="grid-item">
         <ion-icon name="clock" color="white"></ion-icon>
     </div>
     <div class="grid-item">
-        <ion-icon name="calendar" color="white"></ion-icon>
+        <ion-icon name="quote" color="white"></ion-icon>
     </div>
     <div class="grid-item">
-        <ion-icon name="logo-rss" color="white"></ion-icon>
+        <ion-icon name="help" color="white"></ion-icon>
     </div>
     <div class="grid-item">
         <ion-icon name="happy" color="white"></ion-icon>
     </div>
     <div class="grid-item">
-        <ion-icon name="stopwatch" color="white"></ion-icon>
+        <ion-icon name="color-wand" color="white"></ion-icon>
     </div>
     <div class="grid-item">
         <ion-icon name="rainy" color="white"></ion-icon>
     </div>
-    <div class="grid-item"></div>
-    <!--<div class="grid-item grid-item--height2"></div>-->
+    -->
   </div>
+<!--
+ <div class="grid" #packeryGrid>
+    <div class="grid-item" *ngFor="let tile of tiles; let i = index">
+        <packery-grid-item></packery-grid-item>
+    </div>
+  </div>
+-->
   <p>
     {{statusText}}
   </p>
+  <button #addTileButton>Add new tile</button>
+  <button #addBigTileButton>Add new double tile</button>
+    <!--<div class="grid-item grid-item--height2"></div>-->
+  
