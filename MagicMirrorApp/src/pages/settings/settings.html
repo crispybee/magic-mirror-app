@@ -18,14 +18,19 @@
 
   <div [ngSwitch]="settings">
     <ion-list *ngSwitchCase="'Dash Buttons'">
+        <ion-label stacked color="primary" item-left>MAC</ion-label>
+        <ion-input placeholder="Enter MAC here" ></ion-input>
+        <ion-label stacked color="primary"item-left>Message</ion-label>
+        <ion-input placeholder="Enter message here"></ion-input>
+      <ion-item *ngFor="let item of items" let index=index>
+        <ion-label stacked color="primary">{{item.adress}}</ion-label>
+        <ion-input placeholder="Enter MAC here"></ion-input>
+        <ion-label stacked color="primary">{{item.message}}</ion-label>
+        <ion-input placeholder="Enter message here"></ion-input>
+        <ion-item-divider color="light"></ion-item-divider>
+      </ion-item>
       <button ion-button (click)="add()"> <ion-icon name="add"></ion-icon></button>
-      <button ion-item *ngFor="let item of items">
-       <ion-label color="primary"item-left>{{item.adress}}</ion-label>
-    <ion-input placeholder="Enter MAC adress here"item-left></ion-input>
-       <ion-label color="primary"item-right>{{item.message}}</ion-label>
-    <ion-input placeholder="Enter message here"item-right></ion-input>
-      </button>
-      <button ion-button item-left>Save</button>
+      <button ion-button (click)="save()" item-left>Save</button>
     </ion-list>
     <ion-list *ngSwitchCase="'WiFi'">
       <ion-item>
