@@ -1,5 +1,5 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { Component, AfterViewInit } from '@angular/core';
+import { Platform, NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMap, GoogleMapsEvent, LatLng } from '@ionic-native/google-maps';
 
@@ -7,13 +7,11 @@ import { GoogleMap, GoogleMapsEvent, LatLng } from '@ionic-native/google-maps';
   selector: 'maps-component',
   templateUrl: 'maps-component.html'
 })
-export class MapsComponent {
+export class MapsComponent implements AfterViewInit {
+
   map: GoogleMap;
 
-  constructor( public platform: Platform, private geolocation: Geolocation) {
-    platform.ready().then(() => {
-      this.loadMap();
-    });
+  constructor( public platform: Platform, private geolocation: Geolocation, public navController: NavController) {
   }
 
   loadMap() {
@@ -46,6 +44,15 @@ export class MapsComponent {
     this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
       console.log('Map is ready!');
     });
+  }
 
+  ngAfterViewInit() {
+    this.platform.ready().then(() => {
+        this.loadMap();
+    });
+  }
+
+  dismiss() {
+    this.navController.pop();
   }
 }

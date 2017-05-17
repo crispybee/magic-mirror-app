@@ -1,5 +1,7 @@
-import { Component, AfterViewInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { TileType } from "../packery-grid-item/packery-grid-item";
+import { MapsComponent } from "../maps-component/maps-component";
+import { NavController } from "ionic-angular";
 
 import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
@@ -211,7 +213,11 @@ export class PackeryGridComponent implements AfterViewInit {
       // packery.on('layoutComplete', orderItems);
     }
 
-  constructor() {
+  openMaps() {
+    this.navController.push(MapsComponent);
+  }
+
+  constructor(private navController: NavController) {
     this.statusText = 'Grid state info';
 
     /*
