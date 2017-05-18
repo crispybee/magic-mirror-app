@@ -6,24 +6,35 @@ export class JsonService {
         "three": []
     };
 
+    basicRow: any = {
+        "row": 1,
+        "left": { },
+        "middle": { },
+        "right": { }
+    }
+
     jsonForDashButtons: any = {
         "dashbuttons": [
         ]
     };
 
     jsonForDashButtonsActive: any = {
-        "active": [
-        ]
+        "active": [ ]
     };
 
-    jsonForTraffic: any = {};
+    jsonForTraffic: any = {
+        "center": {
+            "lat": 49.2488637,
+            "lng": 8.8884905
+        },
+        "zoom": 10
+    };
 
     jsonForWifi: any = {};
 
 static instance:JsonService;
     static isCreating:Boolean = false;
- 
-   
+
     constructor() {
         if (!JsonService.isCreating) {
             throw new Error("You can't call new in Singleton instances! Call JsonService.getInstance() instead.");
@@ -36,7 +47,7 @@ static instance:JsonService;
             JsonService.instance = new JsonService();
             JsonService.isCreating = false;
         }
- 
+
         return JsonService.instance;
     }
 
