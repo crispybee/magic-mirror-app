@@ -15,7 +15,7 @@ export class TabsPage {
   tab1Root: any = HomePage;
   tab2Root: any = SettingsPage;
   tab3Root: any = ContactPage;
-  tab4Root: any = MapPage;
+  // tab4Root: any = MapPage;
   tab5Root: any = MirrorSurfacePage;
   tab6Root: any = AboutPage;
 
