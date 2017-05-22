@@ -2,40 +2,11 @@ import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { TileType } from "../packery-grid-item/packery-grid-item";
 import { MapsComponent } from "../maps-component/maps-component";
 import { NavController } from "ionic-angular";
+import { JsonService, BasicTile, Tile } from "../../services/jsonservice";
 
 import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
 
-
-interface TrafficInformation {
-    trafficPosition: string,
-    trafficStart: string,
-    trafficDestination: string,
-    trafficZoom: string
-}
-
-interface WeatherInformation {
-  weatherLocation: string
-}
-
-interface Tile {
-  type: TileType,
-  doubleTile: boolean,
-  traffic?: TrafficInformation,
-  weather?: WeatherInformation
-}
-
-export class BasicTile implements Tile {
-	constructor(public type: TileType, public doubleTile: boolean) { }
-}
-
-export class TrafficTile implements Tile {
-	constructor(public type: TileType, public doubleTile: boolean, traffic: TrafficInformation) { }
-}
-
-export class WeatherTile implements Tile {
-	constructor(public type: TileType, public doubleTile: boolean, weather: WeatherInformation) { }
-}
 
 @Component({
   selector: 'packery-grid',
@@ -49,6 +20,7 @@ export class PackeryGridComponent implements AfterViewInit {
 
   statusText: string;
   tiles: Tile[] = [];
+
   currentMarkedTile: ElementRef;
 
   add() {
@@ -58,6 +30,8 @@ export class PackeryGridComponent implements AfterViewInit {
   ngAfterViewInit() {
       console.log(this.grid.nativeElement);
       var tileGrid = this.grid.nativeElement;
+
+      // TODO: Get the JSON data and pass it in here
 
       var packeryOptions = {
         itemSelector: '.grid-item',
@@ -102,46 +76,6 @@ export class PackeryGridComponent implements AfterViewInit {
       }
       */
 
-      function tilesToJSON() {
-        // grid-item--width2
-        var firstRow = {};
-        var secondRow = {};
-        var thirdRow = {};
-
-        var rowCount = 1;
-
-        packery.getItemElements().forEach(function(itemElem, position) {
-          var rowTileSpaceCount = 0;
-            if(itemElem.classList.contains('grid-item--width2')) {
-              rowTileSpaceCount += 2;
-            } else {
-              rowTileSpaceCount++;
-            }
-
-            if(rowTileSpaceCount === 3) {
-              // TODO: save to first row
-              switch(rowCount) {
-                case 1:
-                //TODO: Read and save to row 1 to begin
-                rowCount = 2;
-                break;
-                case 2:
-                //TODO: Read and save to row 2
-                rowCount = 3;
-                break;
-                case 3:
-                //TODO: Read and save to row 3 and end
-                break;
-              }
-
-              rowTileSpaceCount = 0;
-            } else if (rowTileSpaceCount > 3) {
-              // 2 big tiles in a row -> error
-              return false;
-            }
-        });
-      }
-
       function makeAllItemsDraggable() {
         packery.getItemElements().forEach(function(itemElem) {
           var draggedElement = new Draggabilly(itemElem);
@@ -156,6 +90,7 @@ export class PackeryGridComponent implements AfterViewInit {
       function orderItems() {
         packery.getItemElements().forEach(function(itemElem, position) {
           // itemElem.textContent = position + 1;
+          itemElem.id = position;
           console.log(itemElem);
         });
       }
@@ -179,11 +114,10 @@ export class PackeryGridComponent implements AfterViewInit {
           packery.appended(item);
           makeAllItemsDraggable();
           tileNumberChecker();
+          orderItems();
 
-          item.addEventListener('click', function(callback, marked: ElementRef = this.currentMarkedTile) {
-
+          item.addEventListener('click', function() {
             // TODO: Change color to marked and demark the others & pass item pointer outside of ngAfterViewInit
-            marked = new ElementRef(item);
 
             packery.getItemElements().forEach(function(itemElem, position) {
               if(itemElem.classList.contains('grid-item--width2')) {
@@ -200,12 +134,22 @@ export class PackeryGridComponent implements AfterViewInit {
             // TODO: check if there are asynchronous problems
             // item.className += ' marked';
             item.style.background = '#C90';
-          })
+            //updateCurrentMarkedItem(item);
+          });
         }
       // }
 
+      function JSONtoTiles() {
+
+      }
+
       packery.on('dragItemPositioned', function(draggedItem) {
-        packery.layout();
+        // timeout fixes most packery bugs
+        setTimeout(function() {
+          packery.layout();
+          orderItems();
+        }, 300);
+
         // TODO: Causes lag
         // makeAllItemsDraggable();
       });
@@ -213,11 +157,89 @@ export class PackeryGridComponent implements AfterViewInit {
       // packery.on('layoutComplete', orderItems);
     }
 
+
+  updateCurrentMarkedItem(item) {
+        console.log("Marked", item);
+        this.currentMarkedTile = new ElementRef(item);
+  }
+
+  logItem() {
+    console.log("currentMarkedTile", this.currentMarkedTile);
+  }
+
   openMaps() {
     this.navController.push(MapsComponent);
   }
 
-  constructor(private navController: NavController) {
+  getTilePosition(): Element[] {
+    let element: HTMLElement = this.parentElement.nativeElement;
+
+    var allGridTiles: Element[] = [].slice.call(element.getElementsByClassName('grid-item'));
+
+    console.log('Not sorted:', allGridTiles);
+
+    // sort tiles by position
+    allGridTiles.sort(function(a, b) {
+      if(a.id > b.id) {
+        return 1;
+      }
+      if (a.id < b.id) {
+        return -1;
+      }
+
+      return 0;
+    });
+
+    console.log('Sorted:', allGridTiles);
+
+    return allGridTiles;
+  }
+
+  tilesToJSON(gridTiles: Element[]) {
+        // grid-item--width2
+        var firstRow = {};
+        var secondRow = {};
+        var thirdRow = {};
+
+        var rowCount = 1;
+        var tilesInRow: Element[] = [];
+
+        // packery.getItemElements().forEach(function(itemElem, position) {
+          gridTiles.forEach(function(tile: Element) {
+          var rowTileSpaceCount = 0;
+            if(tile.classList.contains('grid-item--width2')) {
+              rowTileSpaceCount += 2;
+              tilesInRow.push(tile);
+            } else {
+              rowTileSpaceCount++;
+              tilesInRow.push(tile);
+            }
+
+            if(rowTileSpaceCount === 3) {
+              // TODO: save to first row
+              switch(rowCount) {
+                case 1:
+                //TODO: Read and save to row 1 to begin
+                rowCount = 2;
+                break;
+                case 2:
+                //TODO: Read and save to row 2
+                rowCount = 3;
+                break;
+                case 3:
+                //TODO: Read and save to row 3 and end
+                break;
+              }
+
+              rowTileSpaceCount = 0;
+            } else if (rowTileSpaceCount > 3) {
+              // 2 big tiles in a row -> error
+              return false;
+            }
+         });
+      }
+
+  constructor(private navController: NavController, private parentElement: ElementRef) {
     this.statusText = 'Grid state info';
 
     /*

@@ -1,3 +1,35 @@
+import { TileType } from "../components/packery-grid-item/packery-grid-item";
+
+interface TrafficInformation {
+    trafficPosition: string,
+    trafficStart: string,
+    trafficDestination: string,
+    trafficZoom: string
+}
+
+interface WeatherInformation {
+  weatherLocation: string
+}
+
+export interface Tile {
+  type: TileType,
+  doubleTile: boolean,
+  traffic?: TrafficInformation,
+  weather?: WeatherInformation
+}
+
+export class BasicTile implements Tile {
+	constructor(public type: TileType, public doubleTile: boolean) { }
+}
+
+export class TrafficTile implements Tile {
+	constructor(public type: TileType, public doubleTile: boolean, traffic: TrafficInformation) { }
+}
+
+export class WeatherTile implements Tile {
+	constructor(public type: TileType, public doubleTile: boolean, weather: WeatherInformation) { }
+}
+
 export class JsonService {
 
     jsonForDesktop: any = {
