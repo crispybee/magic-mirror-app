@@ -1,4 +1,13 @@
-import { TileType } from "../components/packery-grid-item/packery-grid-item";
+export enum TileType {
+  Time,
+  Dashbutton,
+  Quote,
+  Quiz,
+  Empty,
+  Joke,
+  Traffic,
+  Weather
+}
 
 interface TrafficInformation {
     trafficPosition: string,
@@ -84,23 +93,28 @@ static instance:JsonService;
     }
 
     createRow(firstTile: Tile, secondTile: Tile, thirdTile?: Tile) {
-        if(thirdTile) {
+        // if(thirdTile) {
+        if(typeof thirdTile !== 'undefined') {
             // TODO: add 3 tiles
         } else {
             // TODO: add 2 tiles
         }
     }
 
+    // TODO: Shouldn't row be grid?
     createRowsForDesktop(desktopNumber: number, row: any) {
-        if (desktopNumber === 1) {
-            this.jsonForDesktop.one.push(row);
+        switch(desktopNumber) {
+            case 1:
+                this.jsonForDesktop.one.push(row);
+                break;
+            case 2:
+                this.jsonForDesktop.two.push(row);
+                break;
+            case 3:
+                this.jsonForDesktop.three.push(row);
+                break;
         }
-        if (desktopNumber === 2) {
-            this.jsonForDesktop.two.push(row);
-        }
-        if (desktopNumber === 3) {
-            this.jsonForDesktop.three.push(row);
-        }
+
         console.log(this.jsonForDesktop);
     }
 

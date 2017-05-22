@@ -1,16 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-// TODO: No provider for Number, is the error here?
-export enum TileType {
-  Time,
-  Dashbutton,
-  Quote,
-  Quiz,
-  Empty,
-  Joke,
-  Traffic,
-  Weather
-}
+import { TileType } from "../../services/jsonservice";
 
 
 @Component({
