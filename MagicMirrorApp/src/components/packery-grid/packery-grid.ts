@@ -1,8 +1,7 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { TileType } from "../packery-grid-item/packery-grid-item";
 import { MapsComponent } from "../maps-component/maps-component";
 import { NavController } from "ionic-angular";
-import { JsonService, BasicTile, Tile } from "../../services/jsonservice";
+import { JsonService, BasicTile, Tile, TileType } from "../../services/jsonservice";
 
 import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
