@@ -32,15 +32,15 @@ export class SettingsPage {
     let mac3: string = this.mac3.mac;
     let message3: string = this.message3.message;
 
-    JsonService.getInstance().addDashButton({ "mac": mac1, "text": message1 });
-    JsonService.getInstance().addDashButton({ "mac": mac2, "text": message2 });
-    JsonService.getInstance().addDashButton({ "mac": mac3, "text": message3 });
+    JsonService.getInstance().createDashButton({ "mac": mac1, "text": message1 });
+    JsonService.getInstance().createDashButton({ "mac": mac2, "text": message2 });
+    JsonService.getInstance().createDashButton({ "mac": mac3, "text": message3 });
   }
-  
+
   saveWifiSettings() {
     let ssid: string = this.ssid.ssid;
     let password: string = this.password.password;
-    JsonService.getInstance().addWifi({ "ssid": ssid, "password": password });
+    JsonService.getInstance().createWifi({ "ssid": ssid, "password": password });
   }
 
 

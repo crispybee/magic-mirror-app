@@ -32,29 +32,29 @@ export class WeatherTile implements Tile {
 
 export class JsonService {
 
-    jsonForDesktop: any = {
+    readonly jsonForDesktop: any = {
         "one": [],
         "two": [],
         "three": []
     };
 
-    basicRow: any = {
+    readonly basicRow: any = {
         "row": 1,
         "left": { },
         "middle": { },
         "right": { }
     }
 
-    jsonForDashButtons: any = {
+    readonly jsonForDashButtons: any = {
         "dashbuttons": [
         ]
     };
 
-    jsonForDashButtonsActive: any = {
+    readonly jsonForDashButtonsActive: any = {
         "active": [ ]
     };
 
-    jsonForTraffic: any = {
+    readonly jsonForTraffic: any = {
         "center": {
             "lat": 49.2488637,
             "lng": 8.8884905
@@ -62,7 +62,7 @@ export class JsonService {
         "zoom": 10
     };
 
-    jsonForWifi: any = {};
+    readonly jsonForWifi: any = {};
 
 static instance:JsonService;
     static isCreating:Boolean = false;
@@ -83,7 +83,15 @@ static instance:JsonService;
         return JsonService.instance;
     }
 
-    addRowsForDesktop(desktopNumber: number, row: any) {
+    createRow(firstTile: Tile, secondTile: Tile, thirdTile?: Tile) {
+        if(thirdTile) {
+            // TODO: add 3 tiles
+        } else {
+            // TODO: add 2 tiles
+        }
+    }
+
+    createRowsForDesktop(desktopNumber: number, row: any) {
         if (desktopNumber === 1) {
             this.jsonForDesktop.one.push(row);
         }
@@ -96,23 +104,31 @@ static instance:JsonService;
         console.log(this.jsonForDesktop);
     }
 
-    addDashButton(button: any) {
-        this.jsonForDashButtons.dashbuttons.push(button);
-        console.log(this.jsonForDashButtons);
+    createDashButton(button: any) {
+        let dashJSON: any = this.jsonForDashButtons;
+        dashJSON.dashbuttons.push(button);
+        console.log(dashJSON);
+        // return dashJSON;
     }
 
-    addDashButtonActive(activeButton: any) {
-        this.jsonForDashButtonsActive.active.push(activeButton);
+    createDashButtonActive(activeButton: any) {
+        let activeDashJSON: any = this.jsonForDashButtonsActive;
+        activeDashJSON.active.push(activeButton);
         console.log(this.jsonForDashButtonsActive);
+        // return activeDashJSON;
     }
 
-    addTraffic(traffic: any) {
-        this.jsonForTraffic = traffic;
-        console.log(this.jsonForTraffic);
+    createTraffic(traffic: any) {
+        let trafficJSON: any = this.jsonForTraffic;
+        trafficJSON = traffic;
+        console.log(trafficJSON);
+        // return trafficJSON;
     }
 
-    addWifi(wifiConfiguration: any) {
-        this.jsonForWifi = wifiConfiguration;
-        console.log(this.jsonForWifi);
+    createWifi(wifiConfiguration: any) {
+        let wifiJSON: any = this.jsonForWifi;
+        wifiJSON = wifiConfiguration;
+        console.log(wifiJSON);
+        // return wifiJSON;
     }
 }
