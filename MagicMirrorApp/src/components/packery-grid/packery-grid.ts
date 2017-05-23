@@ -115,6 +115,7 @@ export class PackeryGridComponent implements AfterViewInit {
           tileNumberChecker();
           orderItems();
 
+          item.textContent = "Blub";
 /*
           item.addEventListener('click', function() {
             // TODO: Change color to marked and demark the others & pass item pointer outside of ngAfterViewInit
