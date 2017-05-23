@@ -1,14 +1,3 @@
-export enum TileType {
-  Time,
-  Dashbutton,
-  Quote,
-  Quiz,
-  Empty,
-  Joke,
-  Traffic,
-  Weather
-}
-
 interface TrafficInformation {
     trafficPosition: string,
     trafficStart: string,
@@ -40,6 +29,70 @@ export class WeatherTile implements Tile {
 }
 
 export class JsonService {
+
+    private readonly exampleJSON: any = {
+    "one": [
+        {
+            "row": 1,
+            "left": { "grid": "time", "wide": true },
+            "middle": { "grid": "dashbuttons", "wide": false },
+            "right": { "grid": "quote" }
+        },
+        {
+            "row": 2,
+            "left": { "grid": "quiz", "wide": false },
+            "middle": { "grid": "empty", "wide": false },
+            "right": { "grid": "empty" }
+        },
+        {
+            "row": 3,
+            "left": { "grid": "traffic", "wide": true },
+            "middle": { "grid": "empty", "wide": false },
+            "right": { "grid": "weather" }
+        }
+    ],
+    "two": [
+        {
+            "row": 1,
+            "left": { "grid": "time", "wide": false },
+            "middle": { "grid": "dashbuttons", "wide": false },
+            "right": { "grid": "quote" }
+        },
+        {
+            "row": 2,
+            "left": { "grid": "quiz", "wide": false },
+            "middle": { "grid": "empty", "wide": false },
+            "right": { "grid": "joke" }
+        },
+        {
+            "row": 3,
+            "left": { "grid": "traffic", "wide": true },
+            "middle": { "grid": "empty", "wide": false },
+            "right": { "grid": "weather" }
+        }
+    ],
+    "three":[
+        {
+            "row": 1,
+            "left": { "grid": "time", "wide": false },
+            "middle": { "grid": "dashbuttons", "wide": false },
+            "right": { "grid": "quote" }
+        },
+        {
+            "row": 2,
+            "left": { "grid": "quiz", "wide": false },
+            "middle": { "grid": "empty", "wide": false },
+            "right": { "grid": "joke" }
+        },
+        {
+            "row": 3,
+            "left": { "grid": "traffic", "wide": true },
+            "middle": { "grid": "empty", "wide": false },
+            "right": { "grid": "weather" }
+        }
+    ]
+}
+
 
     readonly jsonForDesktop: any = {
         "one": [],
@@ -160,5 +213,34 @@ static instance:JsonService;
         wifiJSON = wifiConfiguration;
         console.log(wifiJSON);
         // return wifiJSON;
+    }
+
+    private readGridFromDesktop(desktopNumber: number) {
+        switch(desktopNumber) {
+            case 1:
+                return this.exampleJSON.one;
+            case 2:
+                return this.exampleJSON.two;
+            case 3:
+                return this.exampleJSON.three;
+        }
+    }
+
+    getRowsOfDesktop(desktopNumber: number) {
+        let grid: any = this.readGridFromDesktop(desktopNumber);
+        let rowArray: Tile[] = [];
+
+        grid.forEach(row => {
+            if(row.left.wide || row.middle.wide) {
+                rowArray.push(new BasicTile(row.left.grid, row.left.wide));
+                rowArray.push(new BasicTile(row.middle.grid, row.middle.wide));
+            } else {
+                rowArray.push(new BasicTile(row.left.grid, row.left.wide));
+                rowArray.push(new BasicTile(row.middle.grid, row.middle.wide));
+                rowArray.push(new BasicTile(row.right.grid, false));
+            }
+        });
+
+        return rowArray;
     }
 }

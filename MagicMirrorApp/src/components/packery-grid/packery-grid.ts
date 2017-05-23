@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { MapsComponent } from "../maps-component/maps-component";
 import { NavController } from "ionic-angular";
-import { JsonService, BasicTile, Tile, TileType } from "../../services/jsonservice";
+import { JsonService, BasicTile, Tile } from "../../services/jsonservice";
 
 import * as Packery from 'packery';
 import * as Draggabilly from 'draggabilly';
@@ -44,12 +44,12 @@ export class PackeryGridComponent implements AfterViewInit {
 
       // Button can not be used from Angular, therefore use plain access
       this.addTileButton.nativeElement.addEventListener('click', function() {
-        addNewTile(tileGrid, false);
+        addNewTile(tileGrid, false, 'small');
       });
 
       // Button can not be used from Angular, therefore use plain access
       this.addBigTileButton.nativeElement.addEventListener('click', function() {
-        addNewTile(tileGrid, true);
+        addNewTile(tileGrid, true, 'big');
       });
 
       var packery = new Packery(tileGrid, packeryOptions);
@@ -96,8 +96,11 @@ export class PackeryGridComponent implements AfterViewInit {
 
       orderItems();
 
+      function capitalizeFirstLetter(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 
-      function addNewTile(nativeElementVar, double: boolean) {
+      function addNewTile(nativeElementVar, double: boolean, tileTypeText: string) {
         // if(tileNumberChecker()) {
           var item = document.createElement('div');
           item.className = 'grid-item';
@@ -115,7 +118,7 @@ export class PackeryGridComponent implements AfterViewInit {
           tileNumberChecker();
           orderItems();
 
-          item.textContent = "Blub";
+          item.textContent = capitalizeFirstLetter(tileTypeText);
 /*
           item.addEventListener('click', function() {
             // TODO: Change color to marked and demark the others & pass item pointer outside of ngAfterViewInit
@@ -142,8 +145,14 @@ export class PackeryGridComponent implements AfterViewInit {
       // }
 
       function JSONtoTiles() {
+        var tileData = JsonService.getInstance().getRowsOfDesktop(1);
 
+        tileData.forEach(tile => {
+          addNewTile(tileGrid, tile.doubleTile, tile.type);
+        })
       }
+
+      JSONtoTiles();
 
       packery.on('dragItemPositioned', function(draggedItem) {
         // timeout fixes most packery bugs
