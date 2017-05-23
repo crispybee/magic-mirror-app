@@ -41,7 +41,7 @@ export class JsonService {
         {
             "row": 2,
             "left": { "grid": "quiz", "wide": false },
-            "middle": { "grid": "empty", "wide": false },
+            "middle": { "grid": "empty", "wide": true },
             "right": { "grid": "empty" }
         },
         {
@@ -86,7 +86,7 @@ export class JsonService {
         },
         {
             "row": 3,
-            "left": { "grid": "traffic", "wide": true },
+            "left": { "grid": "traffic", "wide": false },
             "middle": { "grid": "empty", "wide": false },
             "right": { "grid": "weather" }
         }
@@ -94,29 +94,29 @@ export class JsonService {
 }
 
 
-    readonly jsonForDesktop: any = {
+    private readonly jsonForDesktop: any = {
         "one": [],
         "two": [],
         "three": []
     };
 
-    readonly basicRow: any = {
+    private readonly basicRow: any = {
         "row": 1,
         "left": { },
         "middle": { },
         "right": { }
     }
 
-    readonly jsonForDashButtons: any = {
+    private readonly jsonForDashButtons: any = {
         "dashbuttons": [
         ]
     };
 
-    readonly jsonForDashButtonsActive: any = {
+    private readonly jsonForDashButtonsActive: any = {
         "active": [ ]
     };
 
-    readonly jsonForTraffic: any = {
+    private readonly jsonForTraffic: any = {
         "center": {
             "lat": 49.2488637,
             "lng": 8.8884905
@@ -124,7 +124,7 @@ export class JsonService {
         "zoom": 10
     };
 
-    readonly jsonForWifi: any = {};
+    private readonly jsonForWifi: any = {};
 
 static instance:JsonService;
     static isCreating:Boolean = false;

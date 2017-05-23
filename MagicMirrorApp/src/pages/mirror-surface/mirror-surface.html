@@ -22,15 +22,15 @@
   <h2>Here you can edit your mirror desktops.</h2>
 <div [ngSwitch]="grids">
     <div *ngSwitchCase="'mirror1'">
-      <packery-grid></packery-grid>
+      <packery-grid [mirrorNumber]=1></packery-grid>
     </div>
 
     <div *ngSwitchCase="'mirror2'">
-      <packery-grid></packery-grid>
+      <packery-grid [mirrorNumber]=2></packery-grid>
     </div>
 
     <div *ngSwitchCase="'mirror3'">
-      <packery-grid></packery-grid>
+      <packery-grid [mirrorNumber]=3></packery-grid>
     </div>
 </div>
 </ion-content>

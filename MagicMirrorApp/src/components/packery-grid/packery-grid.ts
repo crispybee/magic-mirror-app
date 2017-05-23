@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { MapsComponent } from "../maps-component/maps-component";
 import { NavController } from "ionic-angular";
 import { JsonService, BasicTile, Tile } from "../../services/jsonservice";
@@ -13,6 +13,7 @@ import * as Draggabilly from 'draggabilly';
 })
 export class PackeryGridComponent implements AfterViewInit {
 
+  @Input() mirrorNumber: any;
   @ViewChild('packeryGrid') grid: ElementRef;
   @ViewChild('addTileButton') addTileButton: ElementRef;
   @ViewChild('addBigTileButton') addBigTileButton: ElementRef;
@@ -29,6 +30,7 @@ export class PackeryGridComponent implements AfterViewInit {
   ngAfterViewInit() {
       console.log(this.grid.nativeElement);
       var tileGrid = this.grid.nativeElement;
+      var gridMirrorNumber = this.mirrorNumber;
 
       // TODO: Get the JSON data and pass it in here
 
@@ -90,7 +92,7 @@ export class PackeryGridComponent implements AfterViewInit {
         packery.getItemElements().forEach(function(itemElem, position) {
           // itemElem.textContent = position + 1;
           itemElem.id = position;
-          console.log(itemElem);
+          // console.log(itemElem);
         });
       }
 
@@ -115,7 +117,6 @@ export class PackeryGridComponent implements AfterViewInit {
           nativeElementVar.appendChild(fragment);
           packery.appended(item);
           makeAllItemsDraggable();
-          tileNumberChecker();
           orderItems();
 
           item.textContent = capitalizeFirstLetter(tileTypeText);
@@ -145,7 +146,8 @@ export class PackeryGridComponent implements AfterViewInit {
       // }
 
       function JSONtoTiles() {
-        var tileData = JsonService.getInstance().getRowsOfDesktop(1);
+        console.log('Current mirror number', gridMirrorNumber);
+        var tileData = JsonService.getInstance().getRowsOfDesktop(gridMirrorNumber);
 
         tileData.forEach(tile => {
           addNewTile(tileGrid, tile.doubleTile, tile.type);
@@ -187,7 +189,7 @@ export class PackeryGridComponent implements AfterViewInit {
 
     var allGridTiles: Element[] = [].slice.call(element.getElementsByClassName('grid-item'));
 
-    console.log('Not sorted:', allGridTiles);
+    // console.log('Not sorted:', allGridTiles);
 
     // sort tiles by position
     allGridTiles.sort(function(a, b) {
@@ -201,7 +203,7 @@ export class PackeryGridComponent implements AfterViewInit {
       return 0;
     });
 
-    console.log('Sorted:', allGridTiles);
+    // console.log('Sorted:', allGridTiles);
 
     return allGridTiles;
   }
@@ -252,15 +254,5 @@ export class PackeryGridComponent implements AfterViewInit {
 
   constructor(private navController: NavController, private parentElement: ElementRef) {
     this.statusText = 'Grid state info';
-
-    /*
-    this.tiles.push(new BasicTile(TileType.Joke, false));
-    this.tiles.push(new BasicTile(TileType.Empty, false));
-    this.tiles.push(new BasicTile(TileType.Quiz, true));
-    this.tiles.push(new TrafficTile(TileType.Traffic, true, {trafficPosition: "1" , trafficStart: "2", trafficDestination: "3", trafficZoom: "4"}));
-    this.tiles.push(new BasicTile(TileType.Quiz, false));
-    this.tiles.push(new BasicTile(TileType.Quiz, false));
-    this.tiles.push(new WeatherTile(TileType.Quiz, true, {weatherLocation: "Heilbronn"}));
-    */
   }
 }
