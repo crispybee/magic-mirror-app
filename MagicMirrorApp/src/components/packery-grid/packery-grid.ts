@@ -207,10 +207,10 @@ export class PackeryGridComponent implements AfterViewInit {
           gridTiles.forEach(function(tile: Element) {
             if(tile.classList.contains('grid-item--width2')) {
               rowTileSpaceCount += 2;
-              tilesInRow.push(new BasicTile(tile.textContent, true));
+              tilesInRow.push(new BasicTile(tile.textContent.toLowerCase(), true));
             } else {
               rowTileSpaceCount++;
-              tilesInRow.push(new BasicTile(tile.textContent, false));
+              tilesInRow.push(new BasicTile(tile.textContent.toLowerCase(), false));
             }
 
             if(rowTileSpaceCount === 3) {
@@ -252,9 +252,6 @@ export class PackeryGridComponent implements AfterViewInit {
          });
 
          console.log('Mirror number is', this.mirrorNumber);
-         console.log('row1', firstRow);
-         console.log('row2', secondRow);
-         console.log('row3', thirdRow);
          JsonService.getInstance().createGridForDesktop(this.mirrorNumber, firstRow, secondRow, thirdRow);
       }
 

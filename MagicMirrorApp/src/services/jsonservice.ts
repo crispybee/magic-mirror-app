@@ -177,6 +177,7 @@ static instance:JsonService;
         }
 
         console.log('Final mirror grid update', this.jsonForDesktop);
+        console.log('Final mirror grid update string', JSON.stringify(this.jsonForDesktop));
     }
 
     createDashButton(button: any) {
