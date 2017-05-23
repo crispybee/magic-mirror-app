@@ -32,8 +32,6 @@ export class PackeryGridComponent implements AfterViewInit {
       var tileGrid = this.grid.nativeElement;
       var gridMirrorNumber = this.mirrorNumber;
 
-      // TODO: Get the JSON data and pass it in here
-
       var packeryOptions = {
         itemSelector: '.grid-item',
         // TODO: Remove rowHeight and columnWidth eventually
@@ -56,9 +54,6 @@ export class PackeryGridComponent implements AfterViewInit {
 
       var packery = new Packery(tileGrid, packeryOptions);
 
-      // TODO: Import and position tiles from JSON before binding to Draggabilly
-      // let asd: PackeryGridItemComponent = new PackeryGridItemComponent(TileType.Weather);
-
       function tileNumberChecker() {
         var items = packery.getItemElements();
         var numberOfTiles = items.length;
@@ -70,12 +65,6 @@ export class PackeryGridComponent implements AfterViewInit {
           return true;
         }
       }
-
-      /*
-      function hasClass(element, cls) {
-        return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
-      }
-      */
 
       function makeAllItemsDraggable() {
         packery.getItemElements().forEach(function(itemElem) {
@@ -162,12 +151,7 @@ export class PackeryGridComponent implements AfterViewInit {
           packery.layout();
           orderItems();
         }, 300);
-
-        // TODO: Causes lag
-        // makeAllItemsDraggable();
       });
-
-      // packery.on('layoutComplete', orderItems);
     }
 
 
