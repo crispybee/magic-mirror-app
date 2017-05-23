@@ -23,7 +23,7 @@ export class PackeryGridComponent implements AfterViewInit {
   currentMarkedTile: ElementRef;
 
   add() {
-    this.tiles.push(new BasicTile(TileType.Dashbutton, false));
+    this.tiles.push(new BasicTile("empty", false));
   }
 
   ngAfterViewInit() {
@@ -115,6 +115,7 @@ export class PackeryGridComponent implements AfterViewInit {
           tileNumberChecker();
           orderItems();
 
+/*
           item.addEventListener('click', function() {
             // TODO: Change color to marked and demark the others & pass item pointer outside of ngAfterViewInit
 
@@ -135,6 +136,7 @@ export class PackeryGridComponent implements AfterViewInit {
             item.style.background = '#C90';
             //updateCurrentMarkedItem(item);
           });
+*/
         }
       // }
 
