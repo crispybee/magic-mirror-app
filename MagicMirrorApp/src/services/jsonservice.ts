@@ -100,13 +100,6 @@ export class JsonService {
         "three": []
     };
 
-    private readonly basicRow: any = {
-        "row": 1,
-        "left": { },
-        "middle": { },
-        "right": { }
-    }
-
     private readonly jsonForDashButtons: any = {
         "dashbuttons": [
         ]
@@ -146,45 +139,44 @@ static instance:JsonService;
     }
 
     createRow(rowNumber: number, firstTile: Tile, secondTile: Tile, thirdTile?: Tile) {
-
-        let row: any = this.basicRow;
+        let row: any = {};
 
         row.row = rowNumber;
-        // if(thirdTile) {
-        if(typeof thirdTile !== 'undefined') {
-            row.right = {"grid": thirdTile.type};
-        }
 
-        row.left = {"grid": firstTile.type, "wide": firstTile.doubleTile};
-        row.middle = {"grid": secondTile.type, "wide": secondTile.doubleTile};
+        if(typeof thirdTile !== 'undefined') {
+            row.left = {"grid": firstTile.type, "wide": firstTile.doubleTile};
+            row.middle = {"grid": secondTile.type, "wide": secondTile.doubleTile};
+            row.right = {"grid": thirdTile.type};
+        } else {
+            row.left = {"grid": firstTile.type, "wide": firstTile.doubleTile};
+            row.middle = {"grid": secondTile.type, "wide": secondTile.doubleTile};
+            row.right = {"grid": "empty"};
+        }
 
         return row;
     }
 
-    createGrid(firstRow: any, secondRow: any, thirdRow: any) {
+    createGridForDesktop(desktopNumber: number, firstRow: any, secondRow: any, thirdRow: any) {
+
         let gridArray: any[] = [];
 
         gridArray.push(firstRow);
         gridArray.push(secondRow);
         gridArray.push(thirdRow);
 
-        return  gridArray;
-    }
-
-    createGridForDesktop(desktopNumber: number, grid: any[]) {
         switch(desktopNumber) {
             case 1:
-                this.jsonForDesktop.one = grid;
+                this.jsonForDesktop.one = gridArray;
                 break;
             case 2:
-                this.jsonForDesktop.two = grid;
+                this.jsonForDesktop.two = gridArray;
                 break;
             case 3:
-                this.jsonForDesktop.three = grid;
+                this.jsonForDesktop.three = gridArray;
                 break;
         }
 
-        console.log(this.jsonForDesktop);
+        console.log('Final mirror grid update', this.jsonForDesktop);
     }
 
     createDashButton(button: any) {

@@ -146,6 +146,7 @@ export class PackeryGridComponent implements AfterViewInit {
       JSONtoTiles();
 
       packery.on('dragItemPositioned', function(draggedItem) {
+
         // timeout fixes most packery bugs
         setTimeout(function() {
           packery.layout();
@@ -173,8 +174,6 @@ export class PackeryGridComponent implements AfterViewInit {
 
     var allGridTiles: Element[] = [].slice.call(element.getElementsByClassName('grid-item'));
 
-    // console.log('Not sorted:', allGridTiles);
-
     // sort tiles by position
     allGridTiles.sort(function(a, b) {
       if(a.id > b.id) {
@@ -187,53 +186,76 @@ export class PackeryGridComponent implements AfterViewInit {
       return 0;
     });
 
-    // console.log('Sorted:', allGridTiles);
-
     return allGridTiles;
   }
 
-  tilesToJSON(gridTiles: Element[]) {
-        // grid-item--width2
-        var firstRow = {};
-        var secondRow = {};
-        var thirdRow = {};
+  callTilesToJSON() {
+    this.tilesToJSON(this.getTilePosition());
+  }
+
+  private tilesToJSON(gridTiles: Element[]) {
+
+        var firstRow: any = {};
+        var secondRow: any = {};
+        var thirdRow: any = {};
 
         var rowCount = 1;
-        var tilesInRow: Element[] = [];
+        var rowTileSpaceCount = 0;
 
-        // packery.getItemElements().forEach(function(itemElem, position) {
+        var tilesInRow: Tile[] = [];
+
           gridTiles.forEach(function(tile: Element) {
-          var rowTileSpaceCount = 0;
             if(tile.classList.contains('grid-item--width2')) {
               rowTileSpaceCount += 2;
-              tilesInRow.push(tile);
+              tilesInRow.push(new BasicTile(tile.textContent, true));
             } else {
               rowTileSpaceCount++;
-              tilesInRow.push(tile);
+              tilesInRow.push(new BasicTile(tile.textContent, false));
             }
 
             if(rowTileSpaceCount === 3) {
-              // TODO: save to first row
+              rowTileSpaceCount = 0;
+
               switch(rowCount) {
                 case 1:
-                //TODO: Read and save to row 1 to begin
-                rowCount = 2;
+                  if(tilesInRow.length === 3) {
+                    firstRow = JsonService.getInstance().createRow(1, tilesInRow[0], tilesInRow[1], tilesInRow[2]);
+                  } else if (tilesInRow.length === 2) {
+                    firstRow = JsonService.getInstance().createRow(1, tilesInRow[0], tilesInRow[1]);
+                  }
+                  rowCount = 2;
+                  tilesInRow = [];
                 break;
                 case 2:
-                //TODO: Read and save to row 2
-                rowCount = 3;
+                  if(tilesInRow.length === 3) {
+                    secondRow = JsonService.getInstance().createRow(2, tilesInRow[0], tilesInRow[1], tilesInRow[2]);
+                  } else if (tilesInRow.length === 2) {
+                    secondRow = JsonService.getInstance().createRow(2, tilesInRow[0], tilesInRow[1]);
+                  }
+                  rowCount = 3;
+                  tilesInRow = [];
                 break;
                 case 3:
-                //TODO: Read and save to row 3 and end
+                  if(tilesInRow.length === 3) {
+                    thirdRow = JsonService.getInstance().createRow(3, tilesInRow[0], tilesInRow[1], tilesInRow[2]);
+                  } else if (tilesInRow.length === 2) {
+                    thirdRow = JsonService.getInstance().createRow(3, tilesInRow[0], tilesInRow[1]);
+                  }
+                  tilesInRow = [];
                 break;
               }
-
-              rowTileSpaceCount = 0;
             } else if (rowTileSpaceCount > 3) {
+
               // 2 big tiles in a row -> error
               return false;
             }
          });
+
+         console.log('Mirror number is', this.mirrorNumber);
+         console.log('row1', firstRow);
+         console.log('row2', secondRow);
+         console.log('row3', thirdRow);
+         JsonService.getInstance().createGridForDesktop(this.mirrorNumber, firstRow, secondRow, thirdRow);
       }
 
   constructor(private navController: NavController, private parentElement: ElementRef) {
