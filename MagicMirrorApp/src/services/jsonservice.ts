@@ -21,22 +21,22 @@ interface WeatherInformation {
 }
 
 export interface Tile {
-  type: TileType,
+  type: string,
   doubleTile: boolean,
   traffic?: TrafficInformation,
   weather?: WeatherInformation
 }
 
 export class BasicTile implements Tile {
-	constructor(public type: TileType, public doubleTile: boolean) { }
+	constructor(public type: string, public doubleTile: boolean) { }
 }
 
 export class TrafficTile implements Tile {
-	constructor(public type: TileType, public doubleTile: boolean, traffic: TrafficInformation) { }
+	constructor(public type: string, public doubleTile: boolean, traffic: TrafficInformation) { }
 }
 
 export class WeatherTile implements Tile {
-	constructor(public type: TileType, public doubleTile: boolean, weather: WeatherInformation) { }
+	constructor(public type: string, public doubleTile: boolean, weather: WeatherInformation) { }
 }
 
 export class JsonService {
@@ -92,26 +92,42 @@ static instance:JsonService;
         return JsonService.instance;
     }
 
-    createRow(firstTile: Tile, secondTile: Tile, thirdTile?: Tile) {
+    createRow(rowNumber: number, firstTile: Tile, secondTile: Tile, thirdTile?: Tile) {
+
+        let row: any = this.basicRow;
+
+        row.row = rowNumber;
         // if(thirdTile) {
         if(typeof thirdTile !== 'undefined') {
-            // TODO: add 3 tiles
-        } else {
-            // TODO: add 2 tiles
+            row.right = {"grid": thirdTile.type};
         }
+
+        row.left = {"grid": firstTile.type, "wide": firstTile.doubleTile};
+        row.middle = {"grid": secondTile.type, "wide": secondTile.doubleTile};
+
+        return row;
     }
 
-    // TODO: Shouldn't row be grid?
-    createRowsForDesktop(desktopNumber: number, row: any) {
+    createGrid(firstRow: any, secondRow: any, thirdRow: any) {
+        let gridArray: any[] = [];
+
+        gridArray.push(firstRow);
+        gridArray.push(secondRow);
+        gridArray.push(thirdRow);
+
+        return  gridArray;
+    }
+
+    createGridForDesktop(desktopNumber: number, grid: any[]) {
         switch(desktopNumber) {
             case 1:
-                this.jsonForDesktop.one.push(row);
+                this.jsonForDesktop.one = grid;
                 break;
             case 2:
-                this.jsonForDesktop.two.push(row);
+                this.jsonForDesktop.two = grid;
                 break;
             case 3:
-                this.jsonForDesktop.three.push(row);
+                this.jsonForDesktop.three = grid;
                 break;
         }
 
