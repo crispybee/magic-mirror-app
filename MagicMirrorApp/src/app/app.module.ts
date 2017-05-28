@@ -23,6 +23,7 @@ import {
 import { MirrorSurfacePage } from "../pages/mirror-surface/mirror-surface";
 import { PackeryGridComponent } from "../components/packery-grid/packery-grid";
 import { MapsComponent } from "../components/maps-component/maps-component";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { MapsComponent } from "../components/maps-component/maps-component";
     BLE,
     Geolocation,
     GoogleMaps,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    FormsModule,
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
