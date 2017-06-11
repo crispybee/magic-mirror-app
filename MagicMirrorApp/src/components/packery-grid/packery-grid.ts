@@ -42,14 +42,16 @@ export class PackeryGridComponent implements AfterViewInit {
       let observer = new MutationObserver(mutations => {
         mutations.forEach(function(mutation) {
           let item: HTMLElement = <HTMLElement>mutation.target;
+          let itemTileType: string = item.textContent;
 
           // console.log("Mutation", item);
 
           if(item.getAttribute("changesizeto") === "small") {
+
             // delete item and add 2 new small ones
             packery.remove(item);
             setTimeout(function() {
-              addNewTile(tileGrid, false, 'empty');
+              addNewTile(tileGrid, false, itemTileType);
               addNewTile(tileGrid, false, 'empty');
 
               // timeout fixes most packery bugs
@@ -75,7 +77,7 @@ export class PackeryGridComponent implements AfterViewInit {
             });
 
             setTimeout(function() {
-              addNewTile(tileGrid, true, 'empty');
+              addNewTile(tileGrid, true, itemTileType);
 
               setTimeout(function() {
                 packery.layout();
