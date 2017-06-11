@@ -121,7 +121,7 @@ export class PackeryGridComponent implements AfterViewInit {
       }
 
       function addNewTile(nativeElementVar, double: boolean, tileTypeText: string) {
-          var item = document.createElement('div');
+          var item: HTMLElement = document.createElement('div');
           item.className = 'grid-item';
 
           if(double) {
@@ -143,7 +143,16 @@ export class PackeryGridComponent implements AfterViewInit {
 
           item.textContent = capitalizeFirstLetter(tileTypeText);
 
+          // add events for browser and touchscreen
+          item.addEventListener('touchend', function() {
+            markTile(item);
+          });
           item.addEventListener('click', function() {
+            markTile(item);
+          });
+        }
+
+        function markTile(item: HTMLElement) {
             packery.getItemElements().forEach(function(itemElem, position) {
               if(itemElem.classList.contains('grid-item--width2')) {
                 itemElem.className = 'grid-item grid-item--width2';
@@ -159,9 +168,7 @@ export class PackeryGridComponent implements AfterViewInit {
             }
 
             item.style.background = '#C90';
-          });
-
-        }
+          }
 
       function JSONtoTiles() {
         console.log('Current mirror number', gridMirrorNumber);
