@@ -15,13 +15,9 @@ export class PackeryGridComponent implements AfterViewInit {
 
   @Input() mirrorNumber: any;
   @ViewChild('packeryGrid') grid: ElementRef;
-  @ViewChild('addTileButton') addTileButton: ElementRef;
-  @ViewChild('addBigTileButton') addBigTileButton: ElementRef;
 
   statusText: string;
   tiles: Tile[] = [];
-
-  currentMarkedTile: ElementRef;
 
   add() {
     this.tiles.push(new BasicTile("empty", false));
@@ -39,37 +35,68 @@ export class PackeryGridComponent implements AfterViewInit {
         rowHeight: 100,
         originLeft: true,
         originTop: true,
-        resize: false
+        resize: false,
+        transitionDuration: '0.2s'
       }
 
-      // Button can not be used from Angular, therefore use plain access
-      this.addTileButton.nativeElement.addEventListener('click', function() {
-        addNewTile(tileGrid, false, 'small');
+      let observer = new MutationObserver(mutations => {
+        mutations.forEach(function(mutation) {
+          let item: HTMLElement = <HTMLElement>mutation.target;
+
+          // console.log("Mutation", item);
+
+          if(item.getAttribute("changesizeto") === "small") {
+            // delete item and add 2 new small ones
+            packery.remove(item);
+            setTimeout(function() {
+              addNewTile(tileGrid, false, 'empty');
+              addNewTile(tileGrid, false, 'empty');
+
+              // timeout fixes most packery bugs
+              setTimeout(function() {
+                packery.layout();
+                setTimeout(function() {
+                  orderItems();
+                }, 500);
+              }, 1000);
+            }, 500);
+
+          } else if (item.getAttribute("changesizeto") === "big") {
+            // remove item and remove another small grid item and add a big new one
+            packery.remove(item);
+
+            packery.getItemElements().every(function(itemElem, index) {
+              if(!itemElem.classList.contains('grid-item--width2')) {
+                packery.remove(itemElem);
+                return false;
+              } else {
+                return true;
+              }
+            });
+
+            setTimeout(function() {
+              addNewTile(tileGrid, true, 'empty');
+
+              setTimeout(function() {
+                packery.layout();
+                setTimeout(function() {
+                  orderItems();
+                }, 500);
+              }, 1000);
+            }, 500);
+          }
+        });
       });
 
-      // Button can not be used from Angular, therefore use plain access
-      this.addBigTileButton.nativeElement.addEventListener('click', function() {
-        addNewTile(tileGrid, true, 'big');
-      });
+      let config = {attributes: true, childList: false, characterData: false, subtree: true, attributeFilter: ["changesizeto"]};
+      observer.observe(tileGrid, config);
 
       var packery = new Packery(tileGrid, packeryOptions);
-
-      function tileNumberChecker() {
-        var items = packery.getItemElements();
-        var numberOfTiles = items.length;
-        console.log("Number of current tiles", numberOfTiles);
-
-        if(numberOfTiles <= 6 || numberOfTiles >= 9) {
-          return false;
-        } else {
-          return true;
-        }
-      }
 
       function makeAllItemsDraggable() {
         packery.getItemElements().forEach(function(itemElem) {
           var draggedElement = new Draggabilly(itemElem);
-          // TODO: packery must be local
+          // packery must be local
           packery.bindDraggabillyEvents(draggedElement);
         });
       }
@@ -92,12 +119,16 @@ export class PackeryGridComponent implements AfterViewInit {
       }
 
       function addNewTile(nativeElementVar, double: boolean, tileTypeText: string) {
-        // if(tileNumberChecker()) {
           var item = document.createElement('div');
           item.className = 'grid-item';
 
           if(double) {
             item.className += ' grid-item--width2';
+
+            // add size changing attribute
+            item.setAttribute("changesizeto", "noneSmall");
+          } else {
+            item.setAttribute("changesizeto", "noneBig");
           }
 
           var fragment = document.createDocumentFragment();
@@ -109,30 +140,26 @@ export class PackeryGridComponent implements AfterViewInit {
           orderItems();
 
           item.textContent = capitalizeFirstLetter(tileTypeText);
-/*
-          item.addEventListener('click', function() {
-            // TODO: Change color to marked and demark the others & pass item pointer outside of ngAfterViewInit
 
+          item.addEventListener('click', function() {
             packery.getItemElements().forEach(function(itemElem, position) {
               if(itemElem.classList.contains('grid-item--width2')) {
-                // TODO: add tileType className
-                // itemElem.className = 'grid-item grid-item--width2';
+                itemElem.className = 'grid-item grid-item--width2';
                 itemElem.style.background = '#09C';
               } else {
-                // TODO: add tileType className
-                // itemElem.className = 'grid-item';
+                itemElem.className = 'grid-item';
                 itemElem.style.background = '#09C';
               }
             });
 
-            // TODO: check if there are asynchronous problems
-            // item.className += ' marked';
+            if(!item.classList.contains('marked')) {
+              item.className += ' marked';
+            }
+
             item.style.background = '#C90';
-            //updateCurrentMarkedItem(item);
           });
-*/
+
         }
-      // }
 
       function JSONtoTiles() {
         console.log('Current mirror number', gridMirrorNumber);
@@ -155,24 +182,13 @@ export class PackeryGridComponent implements AfterViewInit {
       });
     }
 
-
-  updateCurrentMarkedItem(item) {
-        console.log("Marked", item);
-        this.currentMarkedTile = new ElementRef(item);
-  }
-
-  logItem() {
-    console.log("currentMarkedTile", this.currentMarkedTile);
-  }
-
   openMaps() {
     this.navController.push(MapsComponent);
   }
 
   getTilePosition(): Element[] {
     let element: HTMLElement = this.parentElement.nativeElement;
-
-    var allGridTiles: Element[] = [].slice.call(element.getElementsByClassName('grid-item'));
+    let allGridTiles: Element[] = [].slice.call(element.getElementsByClassName('grid-item'));
 
     // sort tiles by position
     allGridTiles.sort(function(a, b) {
@@ -187,6 +203,43 @@ export class PackeryGridComponent implements AfterViewInit {
     });
 
     return allGridTiles;
+  }
+
+  tileNumberChecker(): boolean {
+        var allTiles = this.getTilePosition();
+        var numberOfSmallTiles: number = 0;
+        var numberOfBigTiles: number = 0;
+
+        console.log("Number of current tiles", allTiles.length);
+
+        allTiles.forEach(function(tile: Element) {
+          if(tile.classList.contains('grid-item--width2')) {
+            numberOfBigTiles++;
+          } else {
+            numberOfSmallTiles++;
+          }
+        });
+
+        if(numberOfBigTiles >= 3) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+  toggleTileSize() {
+    let markedTiles: HTMLElement[] = this.grid.nativeElement.getElementsByClassName('marked');
+
+    if(markedTiles.length !== 0) {
+      let markedTile: HTMLElement = markedTiles[0];
+      console.log("Toggle marked tile", markedTile);
+
+      if(markedTile.getAttribute('changesizeto') === 'noneSmall') {
+        markedTile.setAttribute('changesizeto', 'small');
+      } else if(markedTile.getAttribute('changesizeto') === 'noneBig' && this.tileNumberChecker()) {
+        markedTile.setAttribute('changesizeto', 'big');
+      }
+    }
   }
 
   callTilesToJSON() {
