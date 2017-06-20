@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { MapsComponent } from "../maps-component/maps-component";
-import { NavController } from "ionic-angular";
+import { NavController, LoadingController } from "ionic-angular";
 import { JsonService, BasicTile, Tile } from "../../services/jsonservice";
 
 import * as Packery from 'packery';
@@ -318,7 +318,17 @@ export class PackeryGridComponent implements AfterViewInit {
 
     let mirrorData: ArrayBuffer[] = JsonService.getInstance().sliceStringToChunks(JSON.stringify(JsonService.getInstance().jsonForDesktop), "desktop_config");
 
-    JsonService.getInstance().sendData(mirrorData);
+    let loading = this.loadingController.create({
+      spinner: 'dots',
+      content: 'Please wait until grid data is sent to the Magic Mirror...'
+    });
+
+    loading.present();
+
+    JsonService.getInstance().sendData(mirrorData).then(answer => {
+      // Remove loading controller when data has been sent
+      loading.dismiss();
+    });
   }
 
   changeTileType() {
@@ -326,6 +336,6 @@ export class PackeryGridComponent implements AfterViewInit {
     console.log("Change tile type");
   }
 
-  constructor(private navController: NavController, private parentElement: ElementRef) {
+  constructor(private navController: NavController, private parentElement: ElementRef, public loadingController: LoadingController) {
   }
 }

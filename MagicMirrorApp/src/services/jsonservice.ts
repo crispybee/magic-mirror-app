@@ -268,19 +268,21 @@ export class JsonService {
         return allBufferPackets;
     }
 
-    sendData(dataChunk: ArrayBuffer[], part: number = 0): boolean {
-        if(dataChunk.length > part) {
-          this.ble.write(/*"B8:27:EB:A7:4E:A2"*/JsonService.getInstance().currentMirrorMacAddress, "141d9866-1554-11e7-93ae-92361f002671", "141d9c76-1554-11e7-93ae-92361f002671", dataChunk[part]).then(answer => {
-            console.log("Successfully sent chunk " + (part + 1) + " of " + dataChunk.length, answer, this.arrayBufferToString(dataChunk[part]), dataChunk[part]);
-
-            return this.sendData(dataChunk, part + 1);
-          }).catch(error => {
-            console.log(error);
-            return false;
-          });
-        }
-
-        return true;
+    sendData(dataChunk: ArrayBuffer[], part: number = 0): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            if(dataChunk.length > part) {
+                this.ble.write(JsonService.getInstance().currentMirrorMacAddress, "141d9866-1554-11e7-93ae-92361f002671", "141d9c76-1554-11e7-93ae-92361f002671", dataChunk[part]).then(answer => {
+                    console.log("Successfully sent chunk " + (part + 1) + " of " + dataChunk.length, answer, this.arrayBufferToString(dataChunk[part]), dataChunk[part]);
+                    this.sendData(dataChunk, part + 1).then(recursiveAnswer => {
+                        resolve(recursiveAnswer);
+                    });
+                }).catch(error => {
+                    console.log(error);
+                });
+            } else {
+                resolve(true);
+            }
+        });
     }
 
     arrayBufferToString(buf): string {
