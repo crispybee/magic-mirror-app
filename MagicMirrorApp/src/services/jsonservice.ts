@@ -97,13 +97,8 @@ export class JsonService {
 
 
     public readonly jsonForDesktop: any = this.exampleJSON;
-    /*{
-        "one": [],
-        "two": [],
-        "three": []
-    };*/
 
-    private readonly jsonForDashButtons: any = {
+    public readonly jsonForDashButtons: any = {
         "dashbuttons": [
         ]
     };
@@ -120,7 +115,7 @@ export class JsonService {
         "zoom": 10
     };
 
-    private readonly jsonForWifi: any = {};
+    public jsonForWifi: any = {"ssid": "", "password": ""};
 
     public currentMirrorMacAddress: string = "";
 
@@ -187,9 +182,8 @@ export class JsonService {
     }
 
     createDashButton(button: any) {
-        let dashJSON: any = this.jsonForDashButtons;
-        dashJSON.dashbuttons.push(button);
-        console.log(dashJSON);
+        this.jsonForDashButtons.dashbuttons.push(button);
+        console.log(this.jsonForDashButtons);
         // return dashJSON;
     }
 
@@ -208,10 +202,8 @@ export class JsonService {
     }
 
     createWifi(wifiConfiguration: any) {
-        let wifiJSON: any = this.jsonForWifi;
-        wifiJSON = wifiConfiguration;
-        console.log(wifiJSON);
-        // return wifiJSON;
+        this.jsonForWifi = wifiConfiguration;
+        console.log(this.jsonForWifi);
     }
 
     private readGridFromDesktop(desktopNumber: number) {
@@ -288,12 +280,14 @@ export class JsonService {
     arrayBufferToString(buf): string {
         return String.fromCharCode.apply(null, new Uint16Array(buf));
     }
+
     stringToArrayBuffer(str): ArrayBuffer {
-    let buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
-    let bufView = new Uint16Array(buf);
-    for (let i=0, strLen=str.length; i < strLen; i++) {
-        bufView[i] = str.charCodeAt(i);
-    }
-    return buf;
+        let buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+        let bufView = new Uint16Array(buf);
+        for (let i=0, strLen=str.length; i < strLen; i++) {
+            bufView[i] = str.charCodeAt(i);
+        }
+
+        return buf;
     }
 }

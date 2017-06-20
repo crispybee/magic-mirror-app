@@ -32,7 +32,7 @@
         </div>
         <button ion-button (click)="add()"> <ion-icon name="add"></ion-icon></button>
         <button ion-button (click)="delete()"><ion-icon name="remove"></ion-icon></button>
-        <button ion-button (click)="save()">Save</button>
+        <button ion-button (click)="save()">Save and send Dashbutton settings</button>
       </form>
     </ion-list>
     <ion-list *ngSwitchCase="'WiFi'">
@@ -45,7 +45,7 @@
           <ion-label color="primary">Password</ion-label>
           <ion-input type="password" [(ngModel)]="password.password" [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
-        <button ion-button (click)="saveWifiSettings()" item-left>Save</button>
+        <button ion-button (click)="saveWifiSettings()" item-left>Save and send Wifi settings</button>
       </form>
     </ion-list>
   </div>
