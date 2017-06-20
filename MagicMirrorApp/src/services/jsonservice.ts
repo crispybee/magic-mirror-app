@@ -30,7 +30,7 @@ export class WeatherTile implements Tile {
 
 export class JsonService {
 
-    private readonly exampleJSON: any = {
+    public readonly exampleJSON: any = {
     "one": [
         {
             "row": 1,
@@ -119,6 +119,8 @@ export class JsonService {
 
     private readonly jsonForWifi: any = {};
 
+    public currentMirrorMacAddress: string = "";
+
 static instance:JsonService;
     static isCreating:Boolean = false;
 
@@ -156,7 +158,7 @@ static instance:JsonService;
         return row;
     }
 
-    createGridForDesktop(desktopNumber: number, firstRow: any, secondRow: any, thirdRow: any) {
+    createGridForDesktop(desktopNumber: number, firstRow: any, secondRow: any, thirdRow: any): string {
 
         let gridArray: any[] = [];
 
@@ -178,6 +180,8 @@ static instance:JsonService;
 
         console.log('Final mirror grid update', this.jsonForDesktop);
         console.log('Final mirror grid update string', JSON.stringify(this.jsonForDesktop));
+
+        return JSON.stringify(this.jsonForDesktop);
     }
 
     createDashButton(button: any) {

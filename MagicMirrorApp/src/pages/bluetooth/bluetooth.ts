@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { BLE } from '@ionic-native/ble';
+import { JsonService } from "../../services/jsonservice";
 
 export class BluetoothDevice {
     constructor(public deviceName: string, private macAddress: string) { }
@@ -46,6 +47,8 @@ export class BluetoothPage {
   connectToDevice(deviceId) {
     this.ble.connect(deviceId).subscribe(connection => {
       console.log(connection);
+      JsonService.getInstance().currentMirrorMacAddress = deviceId;
+      console.log("Saved MAC in JsonService", JsonService.getInstance().currentMirrorMacAddress);
       this.dismiss();
     }, error => {
       console.log("Connection error:", error);
