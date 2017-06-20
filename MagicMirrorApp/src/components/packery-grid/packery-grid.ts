@@ -12,11 +12,9 @@ import * as Draggabilly from 'draggabilly';
   templateUrl: 'packery-grid.html'
 })
 export class PackeryGridComponent implements AfterViewInit {
-
   @Input() mirrorNumber: any;
   @ViewChild('packeryGrid') grid: ElementRef;
 
-  statusText: string;
   tiles: Tile[] = [];
 
   add() {
@@ -43,8 +41,6 @@ export class PackeryGridComponent implements AfterViewInit {
         mutations.forEach(function(mutation) {
           let item: HTMLElement = <HTMLElement>mutation.target;
           let itemTileType: string = item.textContent;
-
-          // console.log("Mutation", item);
 
           if(item.getAttribute("changesizeto") === "small") {
 
@@ -317,7 +313,19 @@ export class PackeryGridComponent implements AfterViewInit {
          JsonService.getInstance().createGridForDesktop(this.mirrorNumber, firstRow, secondRow, thirdRow);
       }
 
+  saveAndSendGrids() {
+    this.callTilesToJSON();
+
+    let mirrorData: ArrayBuffer[] = JsonService.getInstance().sliceStringToChunks(JSON.stringify(JsonService.getInstance().jsonForDesktop), "desktop_config");
+
+    JsonService.getInstance().sendData(mirrorData);
+  }
+
+  changeTileType() {
+    // TODO:
+    console.log("Change tile type");
+  }
+
   constructor(private navController: NavController, private parentElement: ElementRef) {
-    this.statusText = 'Grid state info';
   }
 }

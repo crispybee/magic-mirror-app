@@ -1,3 +1,5 @@
+import { BLE } from "@ionic-native/ble";
+
 interface TrafficInformation {
     trafficPosition: string,
     trafficStart: string,
@@ -34,7 +36,7 @@ export class JsonService {
     "one": [
         {
             "row": 1,
-            "left": { "grid": "time", "wide": true },
+            "left": { "grid": "quiz", "wide": true },
             "middle": { "grid": "dashbuttons", "wide": false },
             "right": { "grid": "quote" }
         },
@@ -94,11 +96,12 @@ export class JsonService {
 }
 
 
-    private readonly jsonForDesktop: any = {
+    public readonly jsonForDesktop: any = this.exampleJSON;
+    /*{
         "one": [],
         "two": [],
         "three": []
-    };
+    };*/
 
     private readonly jsonForDashButtons: any = {
         "dashbuttons": [
@@ -121,10 +124,10 @@ export class JsonService {
 
     public currentMirrorMacAddress: string = "";
 
-static instance:JsonService;
+    static instance:JsonService;
     static isCreating:Boolean = false;
 
-    constructor() {
+    constructor(private ble: BLE) {
         if (!JsonService.isCreating) {
             throw new Error("You can't call new in Singleton instances! Call JsonService.getInstance() instead.");
         }
@@ -133,7 +136,7 @@ static instance:JsonService;
     static getInstance() {
         if (JsonService.instance == null) {
             JsonService.isCreating = true;
-            JsonService.instance = new JsonService();
+            JsonService.instance = new JsonService(new BLE);
             JsonService.isCreating = false;
         }
 
@@ -179,7 +182,6 @@ static instance:JsonService;
         }
 
         console.log('Final mirror grid update', this.jsonForDesktop);
-        console.log('Final mirror grid update string', JSON.stringify(this.jsonForDesktop));
 
         return JSON.stringify(this.jsonForDesktop);
     }
@@ -239,5 +241,57 @@ static instance:JsonService;
         });
 
         return rowArray;
+    }
+
+    sliceStringToChunks(completeData: string, jsonType: string, chunkSize: number = 290): ArrayBuffer[] {
+        let allPackets: string[] = [];
+        let allBufferPackets: ArrayBuffer[] = [];
+        let currentStart: number = 0;
+        let currentChunk: string = "<" + jsonType; //+ completeData.substring(currentStart, chunkSize - jsonType.length);
+
+        allPackets.push(currentChunk);
+
+        while(completeData.length > (currentStart)) {
+          currentChunk = completeData.substring(currentStart, currentStart + chunkSize);
+          allPackets.push(currentChunk);
+          currentStart += chunkSize;
+        }
+
+        allPackets.push(">");
+
+        console.log("allStrings", allPackets);
+
+        for(let i = 0; i < allPackets.length; i++) {
+          allBufferPackets.push(this.stringToArrayBuffer(allPackets[i]));
+        }
+
+        return allBufferPackets;
+    }
+
+    sendData(dataChunk: ArrayBuffer[], part: number = 0): boolean {
+        if(dataChunk.length > part) {
+          this.ble.write(/*"B8:27:EB:A7:4E:A2"*/JsonService.getInstance().currentMirrorMacAddress, "141d9866-1554-11e7-93ae-92361f002671", "141d9c76-1554-11e7-93ae-92361f002671", dataChunk[part]).then(answer => {
+            console.log("Successfully sent chunk " + (part + 1) + " of " + dataChunk.length, answer, this.arrayBufferToString(dataChunk[part]), dataChunk[part]);
+
+            return this.sendData(dataChunk, part + 1);
+          }).catch(error => {
+            console.log(error);
+            return false;
+          });
+        }
+
+        return true;
+    }
+
+    arrayBufferToString(buf): string {
+        return String.fromCharCode.apply(null, new Uint16Array(buf));
+    }
+    stringToArrayBuffer(str): ArrayBuffer {
+    let buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+    let bufView = new Uint16Array(buf);
+    for (let i=0, strLen=str.length; i < strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
     }
 }
