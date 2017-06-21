@@ -107,7 +107,7 @@ export class JsonService {
         "active": [ ]
     };
 
-    private readonly jsonForTraffic: any = {
+    public readonly jsonForTraffic: any = {
         "center": {
             "lat": 49.2488637,
             "lng": 8.8884905
