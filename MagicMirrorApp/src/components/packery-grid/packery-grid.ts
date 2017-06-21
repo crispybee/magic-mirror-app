@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { MapsComponent } from "../maps-component/maps-component";
-import { NavController, LoadingController } from "ionic-angular";
+import { NavController, LoadingController, ActionSheetController } from "ionic-angular";
 import { JsonService, BasicTile, Tile } from "../../services/jsonservice";
 
 import * as Packery from 'packery';
@@ -331,11 +331,91 @@ export class PackeryGridComponent implements AfterViewInit {
     });
   }
 
-  changeTileType() {
-    // TODO:
-    console.log("Change tile type");
+   presentActionSheet() {
+    let actionSheet = this.actionSheetController.create({
+      title: 'Change tile type:',
+      buttons: [
+        {
+          text: 'Time',
+          handler: () => {
+            console.log('Time clicked');
+            this.changeTileType("Time");
+          }
+        },
+        {
+          text: 'Dashbuttons',
+          handler: () => {
+            console.log('Dashbuttons clicked');
+            this.changeTileType("Dashbuttons");
+          }
+        },
+                {
+          text: 'Quote',
+          handler: () => {
+            console.log('Quote clicked');
+            this.changeTileType("Quote");
+          }
+        },
+                {
+          text: 'Quiz',
+          handler: () => {
+            console.log('Quiz clicked');
+            this.changeTileType("Quiz");
+          }
+        },
+                {
+          text: 'Empty',
+          handler: () => {
+            console.log('Empty clicked');
+            this.changeTileType("Empty");
+          }
+        },
+                {
+          text: 'Joke',
+          handler: () => {
+            console.log('Joke clicked');
+            this.changeTileType("Joke");
+          }
+        },
+                {
+          text: 'Traffic',
+          handler: () => {
+            console.log('Traffic clicked');
+            this.changeTileType("Traffic");
+          }
+        },
+                {
+          text: 'Weather',
+          handler: () => {
+            console.log('Weather clicked');
+            this.changeTileType("Weather");
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+
+    actionSheet.present();
+   }
+
+
+  changeTileType(type: string) {
+    let markedTiles: HTMLElement[] = this.grid.nativeElement.getElementsByClassName('marked');
+
+    if(markedTiles.length !== 0) {
+      let markedTile: HTMLElement = markedTiles[0];
+      console.log("Change tile", markedTile,"type to", type);
+
+      markedTile.textContent = type;
+    }
   }
 
-  constructor(private navController: NavController, private parentElement: ElementRef, public loadingController: LoadingController) {
+  constructor(private navController: NavController, private parentElement: ElementRef, public loadingController: LoadingController, public actionSheetController: ActionSheetController) {
   }
 }

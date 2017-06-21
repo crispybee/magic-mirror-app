@@ -5,13 +5,9 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to MagicMirror App!</h2>
+  <h2>Welcome to the Magic Mirror App!</h2>
   <p>
-    This apps allows you to specify the settings of your Magic Mirror.
+    This App allows you to specify the settings of your Magic Mirror.
   </p>
-      <button ion-button (click)="openModal()">
-        <!--<span ion-text color="primary" showWhen="ios"> Search Bluetooth devices</span>-->
-        <ion-icon name="ios-bluetooth" showWhen="ios"> Search Bluetooth devices</ion-icon>
-        <ion-icon name="md-bluetooth" showWhen="android, windows"> Search Bluetooth devices</ion-icon>
-      </button>
+      <button ion-button full (click)="openModal()">Search Bluetooth devices</button>
 </ion-content>

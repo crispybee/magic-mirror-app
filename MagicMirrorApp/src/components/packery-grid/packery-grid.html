@@ -1,7 +1,9 @@
  <div class="grid" #packeryGrid></div>
-  <button ion-button small (click)="toggleTileSize()">Tile Size</button>
-  <button ion-button small (click)="openMaps()">Maps Options</button>
-  <button ion-button small (click)="changeTileType()">Change Type</button>
+ <ion-buttons text-center>
+  <button ion-button small (click)="toggleTileSize()">Size</button>
+  <button ion-button small (click)="openMaps()">Maps</button>
+  <button ion-button small (click)="presentActionSheet()">Type</button>
+ </ion-buttons>
   <button ion-button full color="secondary" (click)="callTilesToJSON()">Save</button>
   <button ion-button full color="dark" (click)="saveAndSendGrids()">Save and send to mirror</button>
 
