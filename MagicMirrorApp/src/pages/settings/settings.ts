@@ -33,7 +33,7 @@ export class SettingsPage {
 
     loading.present();
 
-    let dashbuttonData: ArrayBuffer[] = JsonService.getInstance().sliceStringToChunks(JSON.stringify(JsonService.getInstance().jsonForDashButtons), "dasbuttons_config");
+    let dashbuttonData: ArrayBuffer[] = JsonService.getInstance().sliceStringToChunks(JSON.stringify(JsonService.getInstance().jsonForDashButtons), "dashbuttons_config");
     JsonService.getInstance().sendData(dashbuttonData).then(answer => {
       loading.dismiss();
     });
